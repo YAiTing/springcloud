@@ -1,0 +1,20 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: spring-cloud-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: gateway
+        uri: http://localhost:8080/hello-world
+        predicates:
+        - Path=/gateway/hello-world
+        filters:
+        - name: Hystrix
+          args:
+            name: fallbackcmd
+            fallbackUri: forward:/fallback
+
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 100
